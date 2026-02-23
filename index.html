@@ -3,76 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLO.ST</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Enhanced Website with Voice Narration</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Welcome to FLO.ST</h1>
-        <button id="darkModeToggle">Toggle Dark Mode</button>
-    </header>
-    <nav>
-        <ul id="categoryFilter">
-            <li data-category="all">All</li>
-            <li data-category="category1">Category 1</li>
-            <li data-category="category2">Category 2</li>
-        </ul>
-    </nav>
-    <main>
-        <section id="productList">
-            <!-- Product items will be dynamically inserted here -->
-        </section>
-        <section id="cart">
-            <h2>Your Cart</h2>
-            <ul id="cartItems"></ul>
-            <button id="checkout">Checkout</button>
-        </section>
-    </main>
-    <footer>
-        <p>Voice Narration: <span id="voiceNarration">Enjoy your shopping experience with us!</span></p>
-    </footer>
-    <script src="script.js"></script>
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle">Toggle Dark Mode</button>
+
+    <!-- Voice Narration Button -->
+    <button id="narrateButton">Voice Narration</button>
+
+    <!-- Horizontal Scroll Section -->
+    <section class="horizontal-scroll">
+        <div class="scroll-container">
+            <div class="scroll-item">Item 1</div>
+            <div class="scroll-item">Item 2</div>
+            <div class="scroll-item">Item 3</div>
+            <div class="scroll-item">Item 4</div>
+        </div>
+        <div class="scroll-dots">
+            <span class="dot" id="dot1"></span>
+            <span class="dot" id="dot2"></span>
+            <span class="dot" id="dot3"></span>
+            <span class="dot" id="dot4"></span>
+        </div>
+    </section>
+
+    <!-- Product Categories Filtering -->
+    <section class="product-categories">
+        <button class="filter-btn" data-category="all">All</button>
+        <button class="filter-btn" data-category="electronics">Electronics</button>
+        <button class="filter-btn" data-category="fashion">Fashion</button>
+        <button class="filter-btn" data-category="home">Home</button>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-grid">
+        <div class="product" data-category="electronics">Product 1</div>
+        <div class="product" data-category="fashion">Product 2</div>
+        <div class="product" data-category="home">Product 3</div>
+        <div class="product" data-category="electronics">Product 4</div>
+    </section>
+
+    <!-- Shopping Cart -->
+    <section class="shopping-cart">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <button id="checkout">Checkout</button>
+    </section>
+
+    <!-- JavaScript for Functionality -->
     <script>
-        // Dark mode functionality
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
+        // Dark Mode Functionality
+        const toggleButton = document.getElementById('darkModeToggle');
+        toggleButton.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
         });
 
-        // Example products
-        const products = [
-            { id: 1, name: 'Product 1', category: 'category1' },
-            { id: 2, name: 'Product 2', category: 'category2' }
-        ];
+        // Voice Narration Functionality
+        const narrateButton = document.getElementById('narrateButton');
+        narrateButton.addEventListener('click', () => {
+            const utterance = new SpeechSynthesisUtterance('Welcome to our enhanced website!');
+            speechSynthesis.speak(utterance);
+        });
 
-        // Cart functionality
-        const cart = [];
-        const cartItems = document.getElementById('cartItems');
+        // Horizontal Scroll Functionality
+        const scrollContainer = document.querySelector('.scroll-container');
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                scrollContainer.scrollLeft = index * scrollContainer.clientWidth;
+                updateDots(index);
+            });
+        });
 
-        function addToCart(product) {
-            cart.push(product);
-            updateCart();
-        }
-
-        function updateCart() {
-            cartItems.innerHTML = '';
-            cart.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item.name;
-                cartItems.appendChild(li);
+        function updateDots(index) {
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === index);
             });
         }
 
-        // Product filtering
-        const categoryFilter = document.getElementById('categoryFilter');
-        categoryFilter.addEventListener('click', event => {
-            const category = event.target.dataset.category;
-            filterProducts(category);
+        // Product Filtering Functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                const products = document.querySelectorAll('.products-grid .product');
+                products.forEach(product => {
+                    product.style.display = (category === 'all' || product.getAttribute('data-category') === category) ? 'block' : 'none';
+                });
+            });
         });
 
-        function filterProducts(category) {
-            // Implement filtering logic based on category
-        }
+        // Shopping Cart Functionality
+        const cartItemsContainer = document.getElementById('cartItems');
+        const checkoutButton = document.getElementById('checkout');
+        checkoutButton.addEventListener('click', () => {
+            alert('Proceeding to checkout!');
+            // Implementation of checkout process here
+        });
     </script>
 </body>
 </html>
