@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLO.ST</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to FLO.ST</h1>
+        <button id="darkModeToggle">Toggle Dark Mode</button>
+    </header>
+    <nav>
+        <ul id="categoryFilter">
+            <li data-category="all">All</li>
+            <li data-category="category1">Category 1</li>
+            <li data-category="category2">Category 2</li>
+        </ul>
+    </nav>
+    <main>
+        <section id="productList">
+            <!-- Product items will be dynamically inserted here -->
+        </section>
+        <section id="cart">
+            <h2>Your Cart</h2>
+            <ul id="cartItems"></ul>
+            <button id="checkout">Checkout</button>
+        </section>
+    </main>
+    <footer>
+        <p>Voice Narration: <span id="voiceNarration">Enjoy your shopping experience with us!</span></p>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+
+        // Example products
+        const products = [
+            { id: 1, name: 'Product 1', category: 'category1' },
+            { id: 2, name: 'Product 2', category: 'category2' }
+        ];
+
+        // Cart functionality
+        const cart = [];
+        const cartItems = document.getElementById('cartItems');
+
+        function addToCart(product) {
+            cart.push(product);
+            updateCart();
+        }
+
+        function updateCart() {
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+                cartItems.appendChild(li);
+            });
+        }
+
+        // Product filtering
+        const categoryFilter = document.getElementById('categoryFilter');
+        categoryFilter.addEventListener('click', event => {
+            const category = event.target.dataset.category;
+            filterProducts(category);
+        });
+
+        function filterProducts(category) {
+            // Implement filtering logic based on category
+        }
+    </script>
+</body>
+</html>
